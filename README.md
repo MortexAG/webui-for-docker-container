@@ -73,6 +73,7 @@ This project provides a simple WebUI for managing a Dockerized application, allo
     docker run -d -p 6969:6969 -v /var/run/docker.sock:/var/run/docker.sock -e PASS=yourpassword -e CONTAINER-NAME=yourcontainername --name docker-container-webui docker-container-webui
 
     ```
+    - remember to change the `yourpassword` and `yourcontainername` with your own
 
 ## Usage
 
