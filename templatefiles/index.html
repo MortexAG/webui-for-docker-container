@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>{{ container_name }} WebUI</title>
+    <link rel="icon" href="https://i.imgur.com/gHDYN8T.png">
+    <link rel="stylesheet" href="staticfiles/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        function updateStatus() {
+          $.getJSON('/status', function(data) {
+            $('#botStatus').text(data.status);
+          });
+        }
+
+        $('#startBot').click(function(e) {
+          e.preventDefault(); // Prevent form from submitting normally
+          
+          var password = $('#botPassword').val();
+          
+          if (password === ""){
+            alert("Please Enter A Password");
+            return;
+          }
+
+          $('#botStatus').text('Starting...');
+          $.post('/start',{password:password}, function(data) {
+            if (data.status === 200){
+            //$('#botStatus').text('Starting...');
+            $('#hiddenError').css('display', 'none');
+            setTimeout(updateStatus, 5000); // Wait a bit before updating the status
+            $('#botPassword').val("");
+            } else {
+              alert(data.status);
+              $('#botPassword').val("");
+              $('#botStatus').text("Error Starting The Container");
+              $('#hiddenError').text(data.status);
+              $('#hiddenError').css('display', 'block');
+              return;
+            }
+            });
+        });
+
+        $('#stopBot').click(function(e) {
+
+          e.preventDefault(); // Prevent form from submitting normally
+          
+
+          var password = $('#botPassword').val();
+          
+          if (password === ""){
+            alert("Please Enter A Password");
+            return;
+          }
+
+          $('#botStatus').text("Stopping...");
+          $.post('/stop',{password:password}, function(data) {
+            if (data.status === 200) {
+
+            $('#hiddenError').css('display', 'none');
+            //$('#botStatus').text('Stopping...');
+            setTimeout(updateStatus, 5000); // Wait a bit before updating the status
+            $('#botPassword').val("");
+            } else {
+              alert(data.status);
+              $('#botPassword').val("");
+              $('#botStatus').text("Error Stopping The Container");
+              $('#hiddenError').text(data.status);
+              $('#hiddenError').css('display', 'block');
+              return;
+            }
+            });
+        });
+
+        updateStatus(); // Update status on page load
+      });
+    </script>
+</head>
+<!--
+<body style="background-color:#434350; background-attachment:fixed;">
+  !-->
+  <body class="body">    
+  <div class="margin"></div>
+        <section class="parallax">
+          <div class="parallax-inner">
+          <center>
+      <img src="https://i.imgur.com/gHDYN8T.png" alt="Docker WebUI Logo" class="bot_logo">
+      <hr width="80%" color="#282b30">
+      <div class="status-div">  
+      <h1>{{ container_name }} Status:</h1>
+        <h2 id="botStatus">Loading...</h2>
+        <h3 id="hiddenError" style="display:none;"></h3>
+        </div>
+        <hr width="80%" color="#282b30">
+        <h4>Password</h4>
+        <br>
+        <input type="password" id="botPassword" placeholder="Type Password...">
+        <br>
+        <button id="startBot" class="btn">Start</button>
+        <button id="stopBot" class="btn">Stop</button>
+    
+        </<section>
+          </div>
+          </center>
+</body>
+</html>
+

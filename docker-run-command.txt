@@ -1,0 +1,2 @@
+docker run -d -p 6162:6969 -v /var/run/docker.sock:/var/run/docker.sock --name docker-contaienr-webui docker-container-webui
+
