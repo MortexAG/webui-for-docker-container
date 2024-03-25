@@ -25,8 +25,8 @@ This project provides a simple WebUI for managing a Dockerized application, allo
 1. **Clone the Repository**
 
     ```bash
-    git clone <repository-url>
-    cd <repository-name>
+    git clone https://github.com/MortexAG/webui-for-docker-container.git
+    cd webui-for-docker-container
     ```
 
 2. **Environment Variables**

@@ -1,1 +1,1 @@
-docker build -t image-name .
+docker build -t docker-container-webui .
