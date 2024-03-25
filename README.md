@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/gHDYN8T.png" alt="Project Logo" style="width:200px; height:200px; object-fit:cover;">
+  <img src="https://i.imgur.com/gHDYN8T.png" alt="Project Logo" style="width:220px; height:171px; object-fit:cover;">
 </p>
 
 # WebUI for Dockerized Applications
