@@ -74,7 +74,15 @@ This project provides a simple WebUI for managing a Dockerized application, allo
 
     ```
     - remember to change the `yourpassword` and `yourcontainername` with your own
+  
+  6. **Mounting the Container**
 
+      You can mount the container to any directory by adding
+      
+      ```bash
+      -v path/to/your/directory:/data
+      ```
+     in the run command
 ## Usage
 
 - Navigate to `http://localhost:6969` in your web browser to access the WebUI.
