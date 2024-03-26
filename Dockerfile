@@ -1,8 +1,8 @@
 FROM python:3.10.12-alpine
 
-WORKDIR /docker-container-webui
+WORKDIR /data
 
-COPY . /docker-container-webui
+COPY . /data
 
 RUN pip install -r requirements.txt
 
