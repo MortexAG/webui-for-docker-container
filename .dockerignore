@@ -1,0 +1,8 @@
+testing/
+.gitignore
+.gitattributes
+README.md
+Dockerfile
+docker-compose.yml
+docker-build-command.txt
+docker-run-command.txt

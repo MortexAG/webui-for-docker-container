@@ -22,14 +22,35 @@ This project provides a simple WebUI for managing a Dockerized application, allo
 
 ## Setup Instructions
 
-1. **Clone the Repository**
+### Running Without Docker
+
+To run the application without Docker, follow these steps:
+
+1. **Set Up a Python Virtual Environment (Optional but recommended)**
+
+    For linux:
 
     ```bash
-    git clone https://github.com/MortexAG/webui-for-docker-container.git
-    cd webui-for-docker-container
+    python3 -m virtualenv venv
+    source venv/bin/activate
+    ```
+    
+    For windows:
+
+    ```bash
+    python -m virtualenv venv
+    venv\Scripts\activate
     ```
 
-2. **Environment Variables**
+2. **Install Dependencies**
+
+    Ensure you are in the project's root directory and run:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. **Environment Variables**
 
     Create a `.env` file in the root directory of the project and add the following lines:
 
@@ -41,52 +62,88 @@ This project provides a simple WebUI for managing a Dockerized application, allo
 
     Replace `YourPasswordHere` with a secure password. This will be used to authenticate requests to start or stop the container.
 
-3. **Install Dependencies**
+    or
 
-    Ensure you are in the project's root directory and run:
+    Instead of a `.env` file, you can export the necessary environment variables in your terminal:
 
     ```bash
-    pip install -r requirements.txt
+    export CONTAINER_NAME=YourContainerName/ID
+    export PASS=YourPasswordHere
     ```
 
-4. **Build the Docker Image**
+4. **Run the Application**
 
-    In the root directory of the project, where the Dockerfile is located, build your Docker image:
+    Start the Flask application with:
+
+    ```bash
+    python3 main.py
+    ```
+
+### Running With Docker/Docker Compose
+
+#### Building and Running With Docker
+
+1. **Clone the Repository**
+
+    ```bash
+    git clone https://github.com/MortexAG/webui-for-docker-container.git
+    cd webui-for-docker-container
+    ```
+
+2. **Build the Docker Image**
 
     ```bash
     docker build -t docker-container-webui .
     ```
 
-5. **Run the Container**
-
-    After building the image, you can run the container:
-
-     if you created a `.env` file then do:
+3. **Run the Container**
 
     ```bash
-    docker run -d -p 6969:6969 -v /var/run/docker.sock:/var/run/docker.sock --name docker-container-webui docker-container-webui
-
+    docker run -d -p 6969:6969 \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    --name docker-container-webui docker-container-webui
     ```
-    without creating a `.env` file use this command:
+
+4. **Mounting the Container**
+
+    To mount the container to a specific directory:
 
     ```bash
-    docker run -d -p 6969:6969 -v /var/run/docker.sock:/var/run/docker.sock -e PASS=yourpassword -e CONTAINER-NAME=yourcontainername --name docker-container-webui docker-container-webui
-
+    docker run -d -p 6969:6969 \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /path/to/your/local/data:/data \
+    --name docker-container-webui docker-container-webui
     ```
-    - remember to change the `yourpassword` and `yourcontainername` with your own
-  
-  6. **Mounting the Container**
 
-      You can mount the container to any directory by adding
-      
-      ```bash
-      -v path/to/your/directory:/data
-      ```
-     in the run command
+#### Using Docker Compose
+
+Create a `docker-compose.yml` file with the following content:
+
+```yaml
+version: '3'
+services:
+  webui:
+    image: docker-container-webui
+    container_name: docker-container-webui
+    ports:
+      - "6969:6969"
+    environment:
+      PASS: "yourPassword"
+      CONTAINER_NAME: "yourContainerName"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # - /path/to/your/local/data:/data # OPTIONAL
+``` 
+
+Then run:
+
+```bash
+docker compose up -d
+```
 ## Usage
 
 - Navigate to `http://localhost:6969` in your web browser to access the WebUI.
-- To start or stop the Docker container, enter the password set in the `.env` file and click the "Start Bot" or "Stop Bot" button, respectively.
+- To start or stop the Docker container, enter the password set in the `.env` file and click the "Start" or "Stop" button, respectively.
 - The status of the container (e.g., running, exited) will be displayed on the web page.
 
 ## Notes
@@ -97,4 +154,3 @@ This project provides a simple WebUI for managing a Dockerized application, allo
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue if you have feedback or suggestions for improvement.
-

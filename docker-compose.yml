@@ -1,0 +1,13 @@
+version: '3'
+services:
+  webui:
+    image: docker-container-webui
+    container_name: docker-container-webui
+    ports:
+      - "6969:6969"
+    environment:
+      PASS: "yourPassword"
+      CONTAINER_NAME: "yourContainerName"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # - /path/to/your/local/data:/data # OPTIONAL
